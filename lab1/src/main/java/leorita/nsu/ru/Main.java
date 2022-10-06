@@ -1,13 +1,15 @@
 package leorita.nsu.ru;
 
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
+
+
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
 
         if (args.length == 0) {
@@ -22,7 +24,7 @@ public class Main {
             return;
         }
 
-        Application app = Application.Instance(groupID);
+        Application app = Application.getInstance(groupID);
         MulticastScanner scanner = new MulticastScanner(app);
         Runtime.getRuntime().addShutdownHook(new Thread(scanner::interruptExecution));
 

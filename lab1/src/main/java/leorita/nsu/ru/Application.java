@@ -1,7 +1,6 @@
 package leorita.nsu.ru;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.UUID;
 
 public class Application {
@@ -12,7 +11,7 @@ public class Application {
         appID = UUID.randomUUID();
         this.groupID = groupID;
     }
-    static Application Instance(InetAddress groupID){
+    static Application getInstance(InetAddress groupID){
         if (instance == null) {
             instance = new Application(groupID);
         }
