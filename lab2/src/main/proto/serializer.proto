@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+option java_package = "ru.nsu.leorita.serializer";
+option java_outer_classname = "SerializerProto";
+option java_multiple_files = true;
+
+enum PacketType {
+  INIT = 0;
+  ACK = 1;
+  DATA = 2;
+  END = 3;
+  SUCCESS = 4;
+  FAIL = 5;
+}
+message Packet {
+  required PacketType type = 1;
+  optional string filename = 3;
+  optional bytes payload = 4;
+  optional string checksum = 5;
+  optional int64 filesize = 6;
+}
