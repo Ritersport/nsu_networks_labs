@@ -20,6 +20,9 @@ public class GraphHopperLocation {
     @SerializedName("street")
     public String street;
 
+    @SerializedName("osm_value")
+    public String type;
+
     @SerializedName("housenumber")
     public String houseNumber;
 }

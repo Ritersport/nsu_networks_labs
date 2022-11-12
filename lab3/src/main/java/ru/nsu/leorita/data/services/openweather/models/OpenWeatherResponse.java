@@ -5,6 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class OpenWeatherResponse {
+    public static class OpenWeatherWind {
+        @SerializedName("speed")
+        public Double windSpeed;
+    }
+    public static class OpenWeatherClouds {
+        @SerializedName("all")
+        public Double cloudiness;
+    }
     @SerializedName("weather")
     public List<OpenWeatherInfo> weather;
 
@@ -14,10 +22,10 @@ public class OpenWeatherResponse {
     @SerializedName("visibility")
     public Integer visibility;
 
-    @SerializedName("wind.speed")
-    public Double windSpeed;
+    @SerializedName("wind")
+    public OpenWeatherWind wind;
 
-    @SerializedName("clouds.all")
-    public Double cloudiness;
+    @SerializedName("clouds")
+    public OpenWeatherClouds clouds;
 
 }

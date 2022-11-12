@@ -4,6 +4,7 @@ public class Location {
     private String country;
     private String city;
     private String name;
+    private String type;
     private String street;
     private String houseNumber;
     private Point point;
@@ -55,6 +56,12 @@ public class Location {
     public void setStreet(String street) {
         this.street = street;
     }
+    public void setType(String type) {
+        this.type = type;
+    }
+    public String getType() {
+        return type;
+    }
 
     public String toString() {
         String result = "";
@@ -66,6 +73,9 @@ public class Location {
         }
         if (city != null) {
             result += ", " + city;
+        }
+        if (type != null) {
+            result += ", " + type;
         }
         if (street != null) {
             result += ", " + street;

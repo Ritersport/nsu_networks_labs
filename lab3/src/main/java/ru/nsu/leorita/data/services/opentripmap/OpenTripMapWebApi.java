@@ -15,7 +15,8 @@ public interface OpenTripMapWebApi {
             @Query("lon") Double longitude,
             @Query("lat") Double latitude,
             @Query("apikey") String apiKey,
-            @Query("format") String format
+            @Query("format") String format,
+            @Query("limit") Integer limit
     );
 
     @GET("{lang}/places/xid/{xid}")

@@ -11,8 +11,9 @@ import java.util.List;
 public class InterestingPlaceMapper {
     public static InterestingPlace createInterestingPlace(OpenTripDescriptionResponse openTripDescriptionResponse) {
         InterestingPlace interestingPlace = new InterestingPlace();
-
-        interestingPlace.setDescription(openTripDescriptionResponse.description);
+        if (openTripDescriptionResponse.info != null) {
+            interestingPlace.setDescription(openTripDescriptionResponse.info.description);
+        }
         interestingPlace.setName(openTripDescriptionResponse.placeName);
 
         return interestingPlace;

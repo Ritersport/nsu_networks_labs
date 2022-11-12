@@ -6,6 +6,6 @@ public class OpenTripDescriptionResponse {
     @SerializedName("name")
     public String placeName;
 
-    @SerializedName("wikipedia_extracts.text")
-    public String description;
+    @SerializedName("wikipedia_extracts")
+    public OpenTripInfo info;
 }

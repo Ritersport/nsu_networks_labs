@@ -22,6 +22,7 @@ public class LocationsMapper {
             location.setHouseNumber(graphHopperLocation.houseNumber);
             location.setStreet(graphHopperLocation.street);
             location.setPoint(new Point(graphHopperLocation.point.longitude, graphHopperLocation.point.latitude));
+            location.setType(graphHopperLocation.type);
 
             locations.add(location);
         }

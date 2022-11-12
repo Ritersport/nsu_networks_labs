@@ -54,7 +54,7 @@
                             </font>
                         </Label>
                         <Label fx:id="radiusLabel" graphicTextGap="10.0" prefHeight="36.0" prefWidth="328.0"
-                               text="5500">
+                               text="1000">
                             <font>
                                 <Font name="KacstBook" size="19.0"/>
                             </font>
@@ -62,8 +62,8 @@
                     </children>
                 </HBox>
                 <Slider fx:id="radiusSlider" accessibleText="Meters" disable="true" majorTickUnit="1000.0" max="10000.0"
-                        min="1000.0" minorTickCount="50" onMouseDragged="#onDragDetected" onMouseReleased="#onDragEnded"
-                        opacity="0.53" prefHeight="42.0" prefWidth="762.0" showTickLabels="true" value="5500.0">
+                        min="0.0" minorTickCount="50" onMouseDragged="#onDragDetected" onMouseReleased="#onDragEnded"
+                        opacity="0.53" prefHeight="42.0" prefWidth="762.0" showTickLabels="true" value="1000.0">
                     <VBox.margin>
                         <Insets left="20.0" right="20.0"/>
                     </VBox.margin>

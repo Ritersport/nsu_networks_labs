@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static ru.nsu.leorita.Main.logger;
+
 
 public class RootController implements ControllerLifecycle {
     private final LocationService locationService;
@@ -74,6 +76,7 @@ public class RootController implements ControllerLifecycle {
                             locationsList.setDisable(false);
                         },
                         err -> {
+                            logger.error(err);
                             locationsList.getItems().clear();
                             weatherText.clear();
                             locationsList.getItems().add("Nothing is found");
@@ -96,7 +99,9 @@ public class RootController implements ControllerLifecycle {
                 .observeOn(FxSchedulers.get())
                 .subscribe((weather -> {
                     weatherText.setText(weather.toString());
-                }));
+                }),
+                err -> logger.error(err)
+                );
         findPlaces();
     }
 
@@ -121,13 +126,18 @@ public class RootController implements ControllerLifecycle {
                         radius
                 )
                 .toObservable()
-                .delay(100, TimeUnit.MILLISECONDS)
+                .delay(500, TimeUnit.MILLISECONDS)
                 .flatMapIterable((ids) -> ids)
                 .flatMap((placeID) -> interestingPlacesService.getDescriptions((placeID)).toObservable())
                 .observeOn(FxSchedulers.get())
                 .doOnSubscribe((ignored) -> {
                     placesList.getItems().clear();
                     places.clear();
+                })
+                .doOnComplete(() -> {
+                    if (places.isEmpty()) {
+                        placesList.getItems().add("Nothing found");
+                    }
                 })
                 .subscribe(
                         interestingPlace -> {
@@ -137,6 +147,7 @@ public class RootController implements ControllerLifecycle {
                             }
                         },
                         err -> {
+                            logger.error(err);
                         }
                 );
     }

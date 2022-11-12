@@ -1,6 +1,7 @@
 package ru.nsu.leorita.ui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,7 +34,10 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setTitle("Places");
         stage.show();
-        stage.setOnCloseRequest((ignored) -> stop());
+        stage.setOnCloseRequest((ignored) -> {
+            stop();
+            Platform.exit();
+        });
     }
 
     @Override

@@ -80,10 +80,10 @@ public class Weather {
             result += "Weather: " + this.weatherDescription + "\n";
         }
         if (temperature != null) {
-            result += "Temperature: " + this.temperature + "\n";
+            result += "Temperature: " + this.temperature + "°C\n";
         }
         if (feelsLike != null) {
-            result += "Feels like: " + this.feelsLike + "\n";
+            result += "Feels like: " + this.feelsLike + "°C\n";
         }
         if (cloudiness != null) {
             result += "Cloudiness: " + this.cloudiness + "%\n";
