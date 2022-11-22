@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<SplitPane dividerPositions="0.19799498746867167, 0.5" maxHeight="1.7976931348623157E308"
+           maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL"
+           prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19"
+           xmlns:fx="http://javafx.com/fxml/1">
+    <items>
+        <VBox minHeight="-Infinity" prefHeight="30.0" prefWidth="482.0">
+            <children>
+                <Label prefHeight="36.0" prefWidth="219.0" text="Enter name of location:" textFill="#04010ad1">
+                    <font>
+                        <Font name="KacstBook" size="19.0"/>
+                    </font>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                    <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+                    </VBox.margin>
+                </Label>
+                <TextField fx:id="searchField" prefHeight="49.0" prefWidth="576.0" promptText="I'm looking for...">
+                    <VBox.margin>
+                        <Insets left="8.0" right="8.0"/>
+                    </VBox.margin>
+                </TextField>
+                <StackPane prefHeight="29.0" prefWidth="598.0">
+                    <children>
+                        <Button fx:id="searchButton" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false"
+                                onAction="#onButtonClick" prefHeight="29.0" prefWidth="112.0" text="Search"
+                                textAlignment="JUSTIFY"/>
+                    </children>
+                </StackPane>
+            </children>
+        </VBox>
+        <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0">
+            <items>
+                <ListView fx:id="locationsList" editable="true" onMouseClicked="#onListItemSelection" prefHeight="224.0"
+                          prefWidth="296.0"/>
+                <TextArea fx:id="weatherText" editable="false" prefHeight="268.0" prefWidth="354.0"/>
+            </items>
+        </SplitPane>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <HBox>
+                    <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" prefHeight="36.0"
+                               prefWidth="290.0" text="Radius of searching (meters):">
+                            <font>
+                                <Font name="KacstBook" size="19.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="radiusLabel" graphicTextGap="10.0" prefHeight="36.0" prefWidth="328.0"
+                               text="1000">
+                            <font>
+                                <Font name="KacstBook" size="19.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <Slider fx:id="radiusSlider" accessibleText="Meters" disable="true" majorTickUnit="1000.0" max="10000.0"
+                        min="0.0" minorTickCount="50" onMouseDragged="#onDragDetected" onMouseReleased="#onDragEnded"
+                        opacity="0.53" prefHeight="42.0" prefWidth="762.0" showTickLabels="true" value="1000.0">
+                    <VBox.margin>
+                        <Insets left="20.0" right="20.0"/>
+                    </VBox.margin>
+                </Slider>
+                <ListView fx:id="placesList" prefWidth="998.0"/>
+            </children>
+        </VBox>
+    </items>
+</SplitPane>
