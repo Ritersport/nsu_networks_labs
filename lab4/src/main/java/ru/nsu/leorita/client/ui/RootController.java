@@ -1,5 +1,6 @@
 package ru.nsu.leorita.client.ui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
@@ -10,8 +11,6 @@ import ru.nsu.leorita.model.*;
 public class RootController implements ControllerLifecycle {
     GameModel model;
     Client client;
-    @FXML
-    Button exit;
     View view;
     @FXML
     private Canvas field;
@@ -128,9 +127,6 @@ public class RootController implements ControllerLifecycle {
         joinPlayerButton.setDisable(true);
     }
 
-    public void onExit() {
-        onStop();
-    }
 
     @Override
     public void onStop() {

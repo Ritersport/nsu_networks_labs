@@ -65,8 +65,7 @@
                                 onAction="#onUpdateButtonClick" text="Update list"/>
                         <Button fx:id="joinViewerButton" layoutX="131.0" layoutY="481.0" mnemonicParsing="false"
                                 onAction="#onJoinViewerButtonClick" text="Join as viewer"/>
-                        <Button fx:id="exit" layoutX="123.0" layoutY="813.0" mnemonicParsing="false" onAction="#onExit"
-                                text="Exit"/>
+
                     </children>
                 </AnchorPane>
                 <ScrollPane prefHeight="-1.0" prefWidth="-1.0">

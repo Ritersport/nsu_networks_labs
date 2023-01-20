@@ -89,7 +89,7 @@ public class ClientImpl implements Client, Runnable {
                 serversCollection.put(System.currentTimeMillis(), AnnouncementMapper.toDomen(game, senderIp, senderPort, senderId));
             }
         }
-        //TODO  checkServerRelevance(keysToDelete);
+        checkServerRelevance(keysToDelete);
         view.updateGameList(serversCollection);
     }
 
