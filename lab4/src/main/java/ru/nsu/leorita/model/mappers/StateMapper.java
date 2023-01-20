@@ -18,6 +18,7 @@ public class StateMapper {
         stateProto.getPlayers().getPlayersList().forEach(player -> players.put(player.getId(), PlayerMapper.toDomen(player)));
         return new GameState(config, stateProto.getStateOrder(), snakes, foods, players, localId);
     }
+
     public static SnakesProto.GameState toProtobuf(GameState state, int localId) {
         List<SnakesProto.GameState.Snake> snakesProto = new ArrayList<>();
         state.getSnakes().forEach((id, snake) -> snakesProto.add(SnakeMapper.toProtobuf(snake)));

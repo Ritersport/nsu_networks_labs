@@ -11,12 +11,15 @@ import java.util.List;
 public class SnakeMapper {
     public static Snake toDomen(SnakesProto.GameState.Snake snakeProto, GameConfig config) {
         ArrayList<Coord> pointsList = new ArrayList<>();
-        snakeProto.getPointsList().forEach(coord -> {pointsList.add(new Coord(coord.getX(), coord.getY()));});
+        snakeProto.getPointsList().forEach(coord -> {
+            pointsList.add(new Coord(coord.getX(), coord.getY()));
+        });
         return new Snake(
                 SnakeStateMapper.toDomen(snakeProto.getState()),
                 snakeProto.getPlayerId(),
                 pointsList, config);
     }
+
     public static SnakesProto.GameState.Snake toProtobuf(Snake snake) {
         List<SnakesProto.GameState.Coord> pointsListProto = new ArrayList<>();
         snake.getKeyPoints().forEach(coord -> pointsListProto.add(SnakesProto.GameState.Coord.newBuilder().setX(coord.getX()).setY(coord.getY()).build()));

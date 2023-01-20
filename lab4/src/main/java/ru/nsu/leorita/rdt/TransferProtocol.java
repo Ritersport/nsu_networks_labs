@@ -17,15 +17,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TransferProtocol implements Runnable, TransferPublisher {
     private static volatile TransferProtocol transferProtocolInstance;
+    private static Thread thread;
     private final DeliveryChannel channel;
-    private long ackTimeout;
     private final int rcvTimeout = 20;
     private final Logger logger = Logger.getLogger(TransferProtocol.class);
+    private long ackTimeout;
     private ConcurrentHashMap<Long, SentMessage> toSend;
     private ConcurrentHashMap<InetAddress, HashMap<Long, ReceivedMessage>> receivedMessages;
     private ConcurrentHashMap<Long, OneShootTimer> timerMap;
     private ArrayList<Subscriber> subscribers = new ArrayList<>();
-    private static Thread thread;
     private long nextSeqNum;
     private long sendingNum;
     private int localId;

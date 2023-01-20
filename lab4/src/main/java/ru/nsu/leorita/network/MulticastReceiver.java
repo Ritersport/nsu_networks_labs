@@ -13,10 +13,10 @@ import java.nio.ByteBuffer;
 
 public class MulticastReceiver {
 
+    private final int DATAGRAM_PACKET_LEN = 4096;
     private InetAddress mcastAddress;
     private int mcastPort;
     private MulticastSocket socket;
-    private final int DATAGRAM_PACKET_LEN = 4096;
 
     public MulticastReceiver(InetAddress mcastAddress, int port) throws IOException {
 
@@ -25,6 +25,7 @@ public class MulticastReceiver {
         socket = new MulticastSocket(9192);
         socket.joinGroup(mcastAddress);
     }
+
     public Flowable<ReceivedMessage> getMulticastFlowable() {
         return Flowable.create(emitter -> {
             while (!socket.isClosed()) {
@@ -40,6 +41,7 @@ public class MulticastReceiver {
             }
         }, BackpressureStrategy.BUFFER);
     }
+
     public void shutdown() {
         try {
             socket.leaveGroup(mcastAddress);

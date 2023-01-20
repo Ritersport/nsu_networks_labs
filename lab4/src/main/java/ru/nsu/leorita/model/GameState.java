@@ -20,6 +20,7 @@ public class GameState {
         this.localId = localId;
         this.config = config;
     }
+
     public GameState(GameConfig config, int stateOrder, HashMap<Integer, Snake> snakes, ArrayList<Coord> foods, ConcurrentHashMap<Integer, GamePlayer> players, int localId) {
         this.stateOrder = stateOrder;
         this.snakes = snakes;
@@ -32,6 +33,7 @@ public class GameState {
     public ConcurrentHashMap<Integer, GamePlayer> getPlayers() {
         return players;
     }
+
     public void setNextStateOrder() {
         stateOrder++;
     }
@@ -51,21 +53,24 @@ public class GameState {
     public HashMap<Integer, Snake> getSnakes() {
         return snakes;
     }
+
     public void addPlayer(GamePlayer player) {
         this.players.put(player.getId(), player);
     }
-    public void addSnake(Snake snake) throws RuntimeException{
+
+    public void addSnake(Snake snake) throws RuntimeException {
         snakes.forEach((integer, snake1) -> snake1.getBody().forEach(coord -> {
             if (snake.isBumped(coord)) {
                 throw new RuntimeException("unavailable place to create Snake");
             }
-            }));
+        }));
         snakes.put(snake.getPlayerId(), snake);
     }
 
     public void addFood(Coord food) {
         this.foods.add(food);
     }
+
     public int getPlayersCount() {
         return players.size();
     }

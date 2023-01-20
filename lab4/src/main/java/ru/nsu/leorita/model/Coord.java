@@ -13,19 +13,19 @@ public class Coord {
         return x;
     }
 
-    public int getY() {
-        return y;
-    }
-
     public void setX(int x) {
         this.x = x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void setY(int y) {
         this.y = y;
     }
 
-    public Coord normalize(int fieldWidth, int fieldHeight){
+    public Coord normalize(int fieldWidth, int fieldHeight) {
         this.x = this.x % fieldWidth;
         this.y = this.y % fieldHeight;
 

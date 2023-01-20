@@ -56,6 +56,7 @@ public class MessageBuilder {
                 .setSenderId(masterId)
                 .build();
     }
+
     public static SnakesProto.GameMessage buildAnnouncementMessageBroadcast(List<SnakesProto.GameAnnouncement> announcements, int masterId) {
         SnakesProto.GameMessage.AnnouncementMsg announcementMsg = SnakesProto.GameMessage.newBuilder()
                 .getAnnouncementBuilder()

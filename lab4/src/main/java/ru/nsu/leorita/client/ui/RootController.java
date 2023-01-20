@@ -4,14 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import ru.nsu.leorita.client.Client;
 import ru.nsu.leorita.model.*;
 
 public class RootController implements ControllerLifecycle {
     GameModel model;
     Client client;
+    @FXML
+    Button exit;
+    View view;
     @FXML
     private Canvas field;
     @FXML
@@ -41,12 +42,12 @@ public class RootController implements ControllerLifecycle {
     @FXML
     private Label rightStatus;
     @FXML
+    private Label leftStatus;
+    @FXML
     private Button joinPlayerButton;
     @FXML
     private Button joinViewerButton;
     private Boolean isGameStarted = false;
-
-    View view;
 
     public RootController() {
         model = new GameModelImpl();
@@ -54,7 +55,7 @@ public class RootController implements ControllerLifecycle {
 
     @Override
     public void onStart() {
-        this.view = new GraphicView(field, serversList, rightStatus);
+        this.view = new GraphicView(field, serversList, rightStatus, leftStatus);
         widthSlider.valueProperty().addListener((observable, oldValue, newValue) -> widthLabel.setText(String.valueOf(newValue.intValue())));
         heightSlider.valueProperty().addListener((observable, oldValue, newValue) -> heightLabel.setText(String.valueOf(newValue.intValue())));
         delaySlider.valueProperty().addListener((observable, oldValue, newValue) -> delayLabel.setText(String.valueOf(newValue.intValue())));
@@ -99,24 +100,36 @@ public class RootController implements ControllerLifecycle {
 
         joinPlayerButton.setDisable(true);
         joinViewerButton.setDisable(true);
-        
+
         model.startClient(new GamePlayer(playerName, 1, NodeRole.MASTER, PlayerType.HUMAN, 0), true);
         model.startServer(new GameConfig((int) widthSlider.getValue(), (int) heightSlider.getValue(), (int) foodsSlider.getValue(), (int) delaySlider.getValue(), gameNameField.getText()));
         isGameStarted = true;
     }
+
     public void onUpdateButtonClick() {
         view.drawNewGameList();
     }
+
     public void onJoinPlayerButtonClick() {
         String selcetedString = serversList.getSelectionModel().getSelectedItem();
         model.setLocalPlayerRole(NodeRole.NORMAL);
         model.setLocalPlayerName(playerNameField.getText());
-        client.chooseGame(new String(selcetedString.getBytes(), 11, selcetedString.length() - 11),PlayerType.HUMAN, playerNameField.getText(), NodeRole.NORMAL);
+        client.chooseGame(new String(selcetedString.getBytes(), 11, selcetedString.length() - 11), PlayerType.HUMAN, playerNameField.getText(), NodeRole.NORMAL);
         joinPlayerButton.setDisable(true);
+        joinViewerButton.setDisable(true);
     }
+
     public void onJoinViewerButtonClick() {
         String selcetedString = serversList.getSelectionModel().getSelectedItem();
-        client.chooseGame(new String(selcetedString.getBytes(), 11, selcetedString.length() - 11),PlayerType.HUMAN, playerNameField.getText(), NodeRole.VIEWER);
+        model.setLocalPlayerRole(NodeRole.VIEWER);
+        model.setLocalPlayerName(playerNameField.getText());
+        client.chooseGame(new String(selcetedString.getBytes(), 11, selcetedString.length() - 11), PlayerType.HUMAN, playerNameField.getText(), NodeRole.VIEWER);
+        joinViewerButton.setDisable(true);
+        joinPlayerButton.setDisable(true);
+    }
+
+    public void onExit() {
+        onStop();
     }
 
     @Override

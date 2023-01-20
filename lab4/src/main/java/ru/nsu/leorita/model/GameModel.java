@@ -9,13 +9,22 @@ import java.net.InetAddress;
 
 public interface GameModel {
     void send(SnakesProto.GameMessage message, InetAddress receiverAddress, int receiverPort);
+
     void handleMessage(ReceivedMessage message);
+
     void startServer(GameConfig config);
+
     void startClient(GamePlayer player, Boolean isMaster);
+
     void createClient(View view);
+
     void setLocalPlayerName(String name);
+
     void setLocalPlayerRole(NodeRole role);
+
     GamePlayer getLocalPlayer();
+
     Client getClient();
+
     void shutdown();
 }

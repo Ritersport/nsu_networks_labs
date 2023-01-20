@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 public class App extends Application {
     Logger logger = Logger.getLogger(App.class);
     RootController controller;
+
     @Override
     public void start(Stage stage) throws Exception {
         logger.info("UI start");

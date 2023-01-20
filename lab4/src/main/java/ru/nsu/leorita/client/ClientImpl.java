@@ -1,14 +1,10 @@
 package ru.nsu.leorita.client;
 
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import javafx.application.Platform;
 import org.apache.log4j.Logger;
 import ru.nsu.leorita.client.ui.View;
-import ru.nsu.leorita.client.ui.fxext.FxSchedulers;
 import ru.nsu.leorita.model.*;
 import ru.nsu.leorita.model.mappers.*;
-import ru.nsu.leorita.network.MulticastReceiver;
 import ru.nsu.leorita.rdt.MessageBuilder;
 import ru.nsu.leorita.rdt.TransferProtocol;
 import ru.nsu.leorita.serializer.SnakesProto;
@@ -20,9 +16,10 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientImpl implements Client, Runnable {
+    private final long IS_ALIVE_TIMEOUT = 1100;
+    Logger logger = Logger.getLogger(ClientImpl.class);
     private View view;
     private TransferProtocol channel;
-    Logger logger = Logger.getLogger(ClientImpl.class);
     private GameConfig gameConfig;
     private GameState gameState;
     private int masterPort;
@@ -33,7 +30,6 @@ public class ClientImpl implements Client, Runnable {
     private String requestedGame;
     private Boolean isMaster;
     private ConcurrentHashMap<Long, GameAnnouncement> serversCollection;
-    private final long IS_ALIVE_TIMEOUT = 1100;
 
 
     public ClientImpl(View view) {
@@ -93,7 +89,7 @@ public class ClientImpl implements Client, Runnable {
                 serversCollection.put(System.currentTimeMillis(), AnnouncementMapper.toDomen(game, senderIp, senderPort, senderId));
             }
         }
-      //TODO  checkServerRelevance(keysToDelete);
+        //TODO  checkServerRelevance(keysToDelete);
         view.updateGameList(serversCollection);
     }
 
@@ -156,13 +152,18 @@ public class ClientImpl implements Client, Runnable {
     }
 
     @Override
-    public void setIsMaster(Boolean isMaster) {
-        this.isMaster = isMaster;
+    public void setGameConfig(GameConfig config) {
+        this.gameConfig = config;
     }
 
     @Override
     public Boolean getIsMaster() {
         return isMaster;
+    }
+
+    @Override
+    public void setIsMaster(Boolean isMaster) {
+        this.isMaster = isMaster;
     }
 
     @Override
@@ -184,7 +185,7 @@ public class ClientImpl implements Client, Runnable {
     public void handleState(SnakesProto.GameState state) {
         this.gameState = StateMapper.toDomen(state, localId, gameConfig);
         Platform.runLater(() ->
-        view.repaintField(gameState, gameConfig));
+                view.repaintField(gameState, gameConfig, localId));
     }
 
     @Override
@@ -244,11 +245,6 @@ public class ClientImpl implements Client, Runnable {
 
     public void setRequestedGame(String requestedGame) {
         this.requestedGame = requestedGame;
-    }
-
-    @Override
-    public void setGameConfig(GameConfig config) {
-        this.gameConfig = config;
     }
 
     @Override

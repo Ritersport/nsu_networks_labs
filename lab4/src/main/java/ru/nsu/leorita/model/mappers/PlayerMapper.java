@@ -21,6 +21,7 @@ public class PlayerMapper {
     public static SnakesProto.GamePlayer toProtobuf(GamePlayer player) {
         return SnakesProto.GamePlayer.newBuilder().setName(player.getName()).setId(player.getId()).setIpAddress(player.getIpAddress().toString()).setPort(player.getPort()).setRole(RoleMapper.toProtobuf(player.getRole())).setType(TypeMapper.toProtobuf(player.getPlayerType())).setScore(player.getScore()).build();
     }
+
     public static SnakesProto.GamePlayer localToProtobuf(GamePlayer player) {
         return SnakesProto.GamePlayer.newBuilder().setName(player.getName()).setId(player.getId()).setRole(RoleMapper.toProtobuf(player.getRole())).setType(TypeMapper.toProtobuf(player.getPlayerType())).setScore(player.getScore()).build();
     }

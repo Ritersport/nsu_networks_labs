@@ -30,7 +30,6 @@ public class MulticastSocketWrapper implements MulticastDeliveryChannel, Transfe
     }
 
 
-
     @Override
     public void close() {
         multicastSocket.close();

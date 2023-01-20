@@ -8,17 +8,16 @@ import java.nio.ByteBuffer;
 
 public class DatagramSocketWrapper implements DeliveryChannel {
 
+    private final int DATAGRAM_PACKET_LEN = 4096;
     private DatagramSocket socket;
     private Logger logger = Logger.getLogger(DatagramSocketWrapper.class);
-    private final int DATAGRAM_PACKET_LEN = 4096;
 
     public DatagramSocketWrapper(int rcvTimeout) throws SocketException {
         try {
 
             socket = new DatagramSocket();
             socket.setSoTimeout(rcvTimeout);
-        }
-        catch (SocketException e) {
+        } catch (SocketException e) {
             logger.error("DatagramSocketWrapper constructor:" + e);
             throw e;
         }

@@ -9,13 +9,12 @@ import java.util.List;
 
 public class Snake {
     private final Logger logger = Logger.getLogger(Snake.class);
+    private final List<Coord> body;
+    GameConfig config;
     private SnakeState snakeState;
     private int playerId;
-
-    private final List<Coord> body;
     private Direction headDirection;
     private Boolean isDirUpdated;
-    GameConfig config;
 
     public Snake(int playerId, Coord head, Coord offset, GameConfig config) {
         this.snakeState = SnakeState.ALIVE;
@@ -61,7 +60,7 @@ public class Snake {
     }
 
     public List<Coord> getKeyPoints() {
-        var tmp = new ArrayList<Coord> ();
+        var tmp = new ArrayList<Coord>();
         var keyPoints = new ArrayList<Coord>();
         tmp.add(body.get(0));
         var iter = body.iterator();
@@ -72,10 +71,10 @@ public class Snake {
             prev = curr;
         }
         keyPoints.forEach(coord -> {
-            if(Math.abs(coord.getY()) == config.getHeight() - 1) {
+            if (Math.abs(coord.getY()) == config.getHeight() - 1) {
                 coord.setY((int) -Math.signum(coord.getY()));
             } else if (Math.abs(coord.getX()) == config.getWidth() - 1) {
-                coord.setX((int)-Math.signum(coord.getX()));
+                coord.setX((int) -Math.signum(coord.getX()));
             }
         });
         var iter1 = keyPoints.iterator();
@@ -93,6 +92,7 @@ public class Snake {
         tmp.add(acc);
         return tmp;
     }
+
     private void keyPointsToBody(List<Coord> keyPoints) {
         Coord prev = keyPoints.get(0);
         for (int i = 1; i < keyPoints.size(); i++) {
@@ -102,6 +102,7 @@ public class Snake {
         body.add(prev);
         normalizeCoords();
     }
+
     public Boolean isBumped(Coord checkCoord) {
         for (Coord coord : body) {
             if (coord.getX() == checkCoord.getX() && coord.getY() == checkCoord.getY()) {
@@ -110,15 +111,17 @@ public class Snake {
         }
         return false;
     }
+
     public void grow() {
         Coord tail1 = body.get(body.size() - 1);
         Coord tail2 = body.get(body.size() - 2);
         Coord newTail = new Coord(tail1.getX() * 2 - tail2.getX(), tail1.getY() * 2 - tail2.getY());
         body.add(newTail);
     }
+
     public Boolean isBumpedSelf() {
         Coord head = body.get(0);
-        for (Coord coord: body) {
+        for (Coord coord : body) {
             if (coord != head) {
                 if (coord.getX() == head.getX() && coord.getY() == head.getY())
                     return true;
@@ -137,7 +140,6 @@ public class Snake {
     }
 
 
-
     public Direction getHeadDirection() {
         return headDirection;
     }
@@ -154,8 +156,9 @@ public class Snake {
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
     }
+
     private List<Coord> createSnakePart(Coord start, Coord offset) {
-        if (((offset.getX() == 0) && (offset.getY() == 0)) || ((offset.getX()!= 0) && (offset.getY() != 0))) {
+        if (((offset.getX() == 0) && (offset.getY() == 0)) || ((offset.getX() != 0) && (offset.getY() != 0))) {
             logger.error("Wrong coords");
             return null;
         }
@@ -171,14 +174,17 @@ public class Snake {
     public List<Coord> getBody() {
         return body;
     }
+
     public void move() {
         body.remove(body.size() - 1);
         Coord head = new Coord(body.get(0).getX() + DirectionToCoord.map(headDirection).getX(), body.get(0).getY() + DirectionToCoord.map(headDirection).getY());
         body.add(0, head.normalize(config.getWidth(), config.getHeight()));
     }
+
     public void normalizeCoords() {
         body.forEach(coord -> coord.normalize(config.getWidth(), config.getHeight()));
     }
+
     public Boolean canTurn(Direction direction) {
         if (!isDirUpdated) {
             switch (direction) {

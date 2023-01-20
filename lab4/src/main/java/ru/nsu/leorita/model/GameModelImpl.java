@@ -8,9 +8,9 @@ import ru.nsu.leorita.client.ClientImpl;
 import ru.nsu.leorita.client.ui.View;
 import ru.nsu.leorita.client.ui.fxext.FxSchedulers;
 import ru.nsu.leorita.network.MulticastReceiver;
-import ru.nsu.leorita.rdt.TransferPublisher;
 import ru.nsu.leorita.rdt.ReceivedMessage;
 import ru.nsu.leorita.rdt.TransferProtocol;
+import ru.nsu.leorita.rdt.TransferPublisher;
 import ru.nsu.leorita.serializer.SnakesProto;
 import ru.nsu.leorita.server.Server;
 import ru.nsu.leorita.server.ServerImpl;
@@ -41,8 +41,7 @@ public class GameModelImpl implements GameModel, TransferPublisher.Subscriber {
                     .subscribeOn(Schedulers.io())
                     .observeOn(FxSchedulers.get())
                     .subscribe(this::handleMessage);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.error("GameModelImpl constructor: " + e);
             logger.info("Shutdown...");
             shutdown();
@@ -52,7 +51,7 @@ public class GameModelImpl implements GameModel, TransferPublisher.Subscriber {
     @Override
     public void startServer(GameConfig config) {
         transferProtocol.provideStateDelay(config.getStateDelayMs());
-        server = new ServerImpl(1, config , localPlayer.getName(), localPlayer.getPlayerType(), client);
+        server = new ServerImpl(1, config, localPlayer.getName(), localPlayer.getPlayerType(), client);
         client.setGameConfig(config);
         server.run();
     }
@@ -224,6 +223,7 @@ public class GameModelImpl implements GameModel, TransferPublisher.Subscriber {
     private void handleAnnouncement(SnakesProto.GameMessage.AnnouncementMsg msg, InetAddress senderIp, int senderPort, int senderId) {
         client.handleAnnouncement(msg.getGamesList(), senderIp, senderPort, senderId);
     }
+
     public void shutdown() {
         if (server != null) {
             server.shutdown();

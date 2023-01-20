@@ -22,6 +22,7 @@ public class GamePlayer {
         this.score = score;
         this.isLocal = false;
     }
+
     public GamePlayer(String name, int id, NodeRole role, PlayerType playerType, int score) {
         this.name = name;
         this.id = id;
@@ -30,23 +31,25 @@ public class GamePlayer {
         this.score = score;
         this.isLocal = true;
     }
-    public GamePlayer(){
+
+    public GamePlayer() {
 
     }
 
     public int getId() {
         return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void increaseScore(int val) {
         score += val;
     }
 
     public Boolean getIsLocal() {
         return isLocal;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public PlayerType getPlayerType() {

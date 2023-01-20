@@ -7,7 +7,6 @@ import ru.nsu.leorita.model.mappers.*;
 import ru.nsu.leorita.network.MulticastDeliveryChannel;
 import ru.nsu.leorita.network.MulticastSocketWrapper;
 import ru.nsu.leorita.rdt.MessageBuilder;
-import ru.nsu.leorita.rdt.ReceivedMessage;
 import ru.nsu.leorita.rdt.TransferProtocol;
 import ru.nsu.leorita.serializer.SnakesProto;
 import ru.nsu.leorita.utils.InfiniteShootsTimer;
@@ -22,21 +21,21 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerImpl implements Server, Runnable {
     private final Logger logger = Logger.getLogger(ServerImpl.class);
+    private final GameState gameState;
+    private final InfiniteShootsTimer announcementSender;
+    private final InfiniteShootsTimer stateSender;
+    private final int localId;
+    private final int announcementTimeoutMs = 1000;
     private ArrayList<Integer> diedIds;
     private TransferProtocol transferProtocol;
     private Client client;
-    private final GameState gameState;
     private MulticastDeliveryChannel mcastChannel;
     private InetAddress mcastAddress;
     private int mcastPort = 9192;
-    private final InfiniteShootsTimer announcementSender;
-    private final InfiniteShootsTimer stateSender;
     private int nextId;
     private Boolean deputyAckAwaiting;
     private InetAddress deputyIp;
     private int deputyPort;
-    private final int localId;
-    private final int announcementTimeoutMs = 1000;
 
     public ServerImpl(int localId, GameConfig config, String playerName, PlayerType type, Client client) {
         this.client = client;
@@ -143,14 +142,14 @@ public class ServerImpl implements Server, Runnable {
 
     @Override
     public void handleSteer(SnakesProto.Direction headDirection, int senderId) {
-    //    System.out.println(headDirection + String.valueOf(senderId));
+        //    System.out.println(headDirection + String.valueOf(senderId));
         Snake snake = gameState.getSnakes().get(senderId);
         if (snake != null) {
             Direction newDir = DirectionMapper.toDomen(headDirection);
             assert newDir != null;
-             if (snake.canTurn(newDir)) {
-                    snake.setHeadDirection(newDir);
-             }
+            if (snake.canTurn(newDir)) {
+                snake.setHeadDirection(newDir);
+            }
         } else {
             logger.error("Steer msg for snake that isn't alive");
         }
@@ -226,7 +225,7 @@ public class ServerImpl implements Server, Runnable {
         if ((requestedRole == SnakesProto.NodeRole.NORMAL)) {
             int newPlayerId = getNextId();
             try {
-                gameState.addSnake(new Snake(newPlayerId,  new Coord((int) (Math.random() * 100), (int) (Math.random() * 100)), generateOffset(), gameState.getConfig()));
+                gameState.addSnake(new Snake(newPlayerId, new Coord((int) (Math.random() * 100), (int) (Math.random() * 100)), generateOffset(), gameState.getConfig()));
 
             } catch (RuntimeException e) {
                 SnakesProto.GameMessage message = MessageBuilder.buildErrorMessage("failed to place the snake, try again");

@@ -1,8 +1,6 @@
 package ru.nsu.leorita.model;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GameAnnouncement {
@@ -21,6 +19,7 @@ public class GameAnnouncement {
         this.players = players;
         this.masterId = masterId;
     }
+
     public GameAnnouncement(ConcurrentHashMap<Integer, GamePlayer> players, GameConfig config, Boolean canJoin, String gameName, InetAddress masterIp, int masterPort, int masterId) {
         this.canJoin = canJoin;
         this.gameName = gameName;
@@ -30,6 +29,7 @@ public class GameAnnouncement {
         this.masterPort = masterPort;
         this.masterId = masterId;
     }
+
     public GameAnnouncement(GameConfig config, String gameName, int masterId) {
         this.canJoin = true;
         this.gameName = gameName;
@@ -41,13 +41,15 @@ public class GameAnnouncement {
     public ConcurrentHashMap<Integer, GamePlayer> getPlayers() {
         return players;
     }
-    public void addPlayer(GamePlayer player) {
-        players.put(player.getId(), player);
-    }
 
     public void setPlayers(ConcurrentHashMap<Integer, GamePlayer> players) {
         this.players = players;
     }
+
+    public void addPlayer(GamePlayer player) {
+        players.put(player.getId(), player);
+    }
+
     public int getPlayersCount() {
         return players.size();
     }

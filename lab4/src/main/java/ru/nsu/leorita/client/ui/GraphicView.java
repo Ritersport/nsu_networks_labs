@@ -9,7 +9,6 @@ import ru.nsu.leorita.model.*;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GraphicView implements View {
     private static final int CELL_SIZE = 20;
@@ -17,12 +16,14 @@ public class GraphicView implements View {
     private ArrayList<String> servers;
     private ListView<String> serversView;
     private Label rightStatus;
+    private Label leftStatus;
 
-    public GraphicView(Canvas field, ListView<String> serversList, Label rightStatus) {
+    public GraphicView(Canvas field, ListView<String> serversList, Label rightStatus, Label leftStatus) {
         this.field = field;
         this.serversView = serversList;
         this.servers = new ArrayList<>();
         this.rightStatus = rightStatus;
+        this.leftStatus = leftStatus;
     }
 
     @Override
@@ -49,7 +50,8 @@ public class GraphicView implements View {
     }
 
     @Override
-    public void repaintField(GameState state, GameConfig config) {
+    public void repaintField(GameState state, GameConfig config, int localId) {
+        leftStatus.setText("SCORE: " + String.valueOf(state.getPlayers().get(localId).getScore()));
         drawGrid(config.getWidth(), config.getHeight());
         state.getFoods().forEach(this::drawFood);
         state.getSnakes().forEach((id, snake) -> {
