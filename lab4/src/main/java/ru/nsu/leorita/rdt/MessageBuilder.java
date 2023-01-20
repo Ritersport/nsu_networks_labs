@@ -2,7 +2,6 @@ package ru.nsu.leorita.rdt;
 
 import ru.nsu.leorita.serializer.SnakesProto;
 
-import java.net.DatagramPacket;
 import java.util.List;
 
 public class MessageBuilder {
@@ -13,47 +12,63 @@ public class MessageBuilder {
                 .build();
     }
 
-    public static SnakesProto.GameMessage buildSteerMessage(SnakesProto.Direction direction) {
+    public static SnakesProto.GameMessage buildSteerMessage(SnakesProto.Direction direction, long seq, int senderId) {
         SnakesProto.GameMessage.SteerMsg steerMsg = SnakesProto.GameMessage.newBuilder()
                 .getSteerBuilder()
                 .setDirection(direction)
                 .build();
         return SnakesProto.GameMessage.newBuilder()
                 .setSteer(steerMsg)
+                .setMsgSeq(seq)
+                .setSenderId(senderId)
                 .build();
     }
 
-    public static SnakesProto.GameMessage buildAckMessage(long seq, int id, int receiverID) {
+    public static SnakesProto.GameMessage buildAckMessage(long seq, int senderId, int receiverID) {
         SnakesProto.GameMessage.AckMsg ackMessage = SnakesProto.GameMessage.newBuilder().getAck();
         return SnakesProto.GameMessage.newBuilder()
                 .setAck(ackMessage)
                 .setMsgSeq(seq)
-                .setSenderId(id)
+                .setSenderId(senderId)
                 .setReceiverId(receiverID)
                 .build();
     }
 
-    public static SnakesProto.GameMessage buildStateMessage(SnakesProto.GameState gameState) {
+    public static SnakesProto.GameMessage buildStateMessage(SnakesProto.GameState gameState, long seq) {
         SnakesProto.GameMessage.StateMsg stateMsg = SnakesProto.GameMessage.newBuilder()
                 .getStateBuilder()
                 .setState(gameState)
                 .build();
         return SnakesProto.GameMessage.newBuilder()
                 .setState(stateMsg)
+                .setMsgSeq(seq)
                 .build();
     }
 
-    public static SnakesProto.GameMessage buildAnnouncementMessage(List<SnakesProto.GameAnnouncement> announcements) {
+    public static SnakesProto.GameMessage buildAnnouncementMessage(List<SnakesProto.GameAnnouncement> announcements, long seq, int masterId) {
         SnakesProto.GameMessage.AnnouncementMsg announcementMsg = SnakesProto.GameMessage.newBuilder()
                 .getAnnouncementBuilder()
                 .addAllGames(announcements)
                 .build();
         return SnakesProto.GameMessage.newBuilder()
                 .setAnnouncement(announcementMsg)
+                .setMsgSeq(seq)
+                .setSenderId(masterId)
+                .build();
+    }
+    public static SnakesProto.GameMessage buildAnnouncementMessageBroadcast(List<SnakesProto.GameAnnouncement> announcements, int masterId) {
+        SnakesProto.GameMessage.AnnouncementMsg announcementMsg = SnakesProto.GameMessage.newBuilder()
+                .getAnnouncementBuilder()
+                .addAllGames(announcements)
+                .build();
+        return SnakesProto.GameMessage.newBuilder()
+                .setAnnouncement(announcementMsg)
+                .setSenderId(masterId)
+                .setMsgSeq(1)
                 .build();
     }
 
-    public static SnakesProto.GameMessage buildJoinMessage(SnakesProto.PlayerType playerType, String playerName, String gameName, SnakesProto.NodeRole requestedRole) {
+    public static SnakesProto.GameMessage buildJoinMessage(SnakesProto.PlayerType playerType, String playerName, String gameName, SnakesProto.NodeRole requestedRole, long seq) {
         SnakesProto.GameMessage.JoinMsg joinMsg = SnakesProto.GameMessage.newBuilder()
                 .getJoinBuilder()
                 .setPlayerType(playerType)
@@ -63,6 +78,7 @@ public class MessageBuilder {
                 .build();
         return SnakesProto.GameMessage.newBuilder()
                 .setJoin(joinMsg)
+                .setMsgSeq(seq)
                 .build();
     }
 
@@ -76,7 +92,7 @@ public class MessageBuilder {
                 .build();
     }
 
-    public static SnakesProto.GameMessage buildRoleChangeMessage(SnakesProto.NodeRole senderRole, SnakesProto.NodeRole receiverRole) {
+    public static SnakesProto.GameMessage buildRoleChangeMessage(SnakesProto.NodeRole senderRole, SnakesProto.NodeRole receiverRole, long seq) {
         SnakesProto.GameMessage.RoleChangeMsg roleChangeMsg = SnakesProto.GameMessage.newBuilder()
                 .getRoleChangeBuilder()
                 .setReceiverRole(receiverRole)
@@ -84,6 +100,7 @@ public class MessageBuilder {
                 .build();
         return SnakesProto.GameMessage.newBuilder()
                 .setRoleChange(roleChangeMsg)
+                .setMsgSeq(seq)
                 .build();
     }
 

@@ -13,20 +13,20 @@ public class RawMessage {
         this.senderPort = senderPort;
     }
 
-    public void setSenderAddress(InetAddress senderAddress) {
-        this.senderAddress = senderAddress;
+    public int getSenderPort() {
+        return senderPort;
     }
 
     public void setSenderPort(int senderPort) {
         this.senderPort = senderPort;
     }
 
-    public int getSenderPort() {
-        return senderPort;
-    }
-
     public InetAddress getSenderAddress() {
         return senderAddress;
+    }
+
+    public void setSenderAddress(InetAddress senderAddress) {
+        this.senderAddress = senderAddress;
     }
 
     public byte[] getMessage() {

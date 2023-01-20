@@ -4,14 +4,14 @@ import ru.nsu.leorita.serializer.SnakesProto;
 
 import java.net.InetAddress;
 
-public class SendMessage {
+public class SentMessage {
+    private final long seq;
     private SnakesProto.GameMessage gameMessage;
     private boolean isAcked;
     private int receiverPort;
     private InetAddress receiverAddress;
-    private final long seq;
 
-    public SendMessage(SnakesProto.GameMessage gameMessage, InetAddress receiverAddress, int receiverPort) {
+    public SentMessage(SnakesProto.GameMessage gameMessage, InetAddress receiverAddress, int receiverPort) {
         this.gameMessage = gameMessage;
         this.receiverAddress = receiverAddress;
         this.receiverPort = receiverPort;
@@ -27,14 +27,6 @@ public class SendMessage {
         this.gameMessage = gameMessage;
     }
 
-    public void setReceiverAddress(InetAddress receiverAddress) {
-        this.receiverAddress = receiverAddress;
-    }
-
-    public void setReceiverPort(int receiverPort) {
-        this.receiverPort = receiverPort;
-    }
-
     public void ack() {
         this.isAcked = true;
     }
@@ -46,7 +38,24 @@ public class SendMessage {
     public SnakesProto.GameMessage.TypeCase getMessageType() {
         return gameMessage.getTypeCase();
     }
+
     public long getSeq() {
         return seq;
+    }
+
+    public InetAddress getReceiverAddress() {
+        return receiverAddress;
+    }
+
+    public void setReceiverAddress(InetAddress receiverAddress) {
+        this.receiverAddress = receiverAddress;
+    }
+
+    public int getReceiverPort() {
+        return receiverPort;
+    }
+
+    public void setReceiverPort(int receiverPort) {
+        this.receiverPort = receiverPort;
     }
 }
