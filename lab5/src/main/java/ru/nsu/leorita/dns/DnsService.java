@@ -29,7 +29,7 @@ public class DnsService {
     
     private int messageId = 0;
 
-    private DatagramChannel socket;
+    private DatagramChannel channel;
 
     private InetSocketAddress dnsServerAddress;
     
@@ -53,13 +53,13 @@ public class DnsService {
         this.dnsServerAddress = new InetSocketAddress(dnsServers[0], DNS_SERVER_PORT);
     }
 
-    public void setSocket(DatagramChannel socket) {
-        this.socket = socket;
+    public void setChannel(DatagramChannel channel) {
+        this.channel = channel;
         initResponseHandler();
     }
 
     public void registerSelector(Selector selector) throws ClosedChannelException {
-        socket.register(selector, SelectionKey.OP_READ, dnsResponseHandler);
+        channel.register(selector, SelectionKey.OP_READ, dnsResponseHandler);
     }
 
     public void resolveName(SocksRequest request, SelectionKey selectionKey) throws IOException {
@@ -77,7 +77,7 @@ public class DnsService {
             var queryBytes = query.toWire();
 
             unresolvedNames.put(query.getHeader().getID(), mapValue);
-            socket.send(ByteBuffer.wrap(queryBytes), dnsServerAddress);
+            channel.send(ByteBuffer.wrap(queryBytes), dnsServerAddress);
         } catch (TextParseException exc){
             SocksRequestHandler.onError(selectionKey, HOST_UNREACHABLE_ERROR);
             exc.printStackTrace();
@@ -89,7 +89,7 @@ public class DnsService {
             @Override
             public void handle(SelectionKey selectionKey) throws IOException {
                 var byteBuffer = ByteBuffer.allocate(BUF_SIZE);
-                if(socket.receive(byteBuffer) == null){
+                if(channel.receive(byteBuffer) == null){
                     return;
                 }
 

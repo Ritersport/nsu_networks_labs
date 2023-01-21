@@ -23,7 +23,7 @@ public class Proxy {
             datagramSocket.configureBlocking(false);
 
             var dnsService = DnsService.getInstance();
-            dnsService.setSocket(datagramSocket);
+            dnsService.setChannel(datagramSocket);
             dnsService.registerSelector(selector);
 
             initServerSocketChannel(serverSocketChannel, selector);
