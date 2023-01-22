@@ -1,13 +1,13 @@
-package ru.nsu.leorita.dns;
+package ru.nsu.leorita.services;
 
 import java.nio.channels.SelectionKey;
 
-public class DnsMapValue {
+public class DnsMap {
     private SelectionKey selectionKey;
 
     private short targetPort;
 
-    public DnsMapValue(SelectionKey selectionKey, short targetPort) {
+    public DnsMap(SelectionKey selectionKey, short targetPort) {
         this.selectionKey = selectionKey;
         this.targetPort = targetPort;
     }

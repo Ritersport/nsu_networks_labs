@@ -1,10 +1,10 @@
-package ru.nsu.leorita.socks;
+package ru.nsu.leorita.protocol;
 
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-public class SocksParser {
+public class Parser {
     private static final byte WRONG_ADDRESS_TYPE = 0x08;
 
     private static final byte WRONG_COMMAND = 0x07;
@@ -15,10 +15,10 @@ public class SocksParser {
 
     private static final int CONNECT_COMMAND = 0x01;
 
-    public static SocksConnectRequest parseConnect(ByteBuffer byteBuffer){
+    public static ConnectRequest parseConnect(ByteBuffer byteBuffer){
         try {
             byteBuffer.flip();
-            SocksConnectRequest connect = new SocksConnectRequest();
+            ConnectRequest connect = new ConnectRequest();
             connect.setVersion(byteBuffer.get());
             connect.setnMethods(byteBuffer.get());
             byteBuffer.get(connect.getMethods());
@@ -29,9 +29,9 @@ public class SocksParser {
         }
     }
 
-    public static SocksRequest parseRequest(ByteBuffer byteBuffer){
+    public static Request parseRequest(ByteBuffer byteBuffer){
         try {
-            SocksRequest request = new SocksRequest();
+            Request request = new Request();
             byteBuffer.flip();
             request.setVersion(byteBuffer.get());
 
@@ -57,7 +57,7 @@ public class SocksParser {
         byteBuffer.position(newStartPos);
     }
 
-    private static void checkAddressType(byte addressType, ByteBuffer byteBuffer, SocksRequest request){
+    private static void checkAddressType(byte addressType, ByteBuffer byteBuffer, Request request){
         request.setAddressType(addressType);
 
         switch (addressType){

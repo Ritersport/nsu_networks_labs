@@ -1,9 +1,9 @@
 package ru.nsu.leorita.handlers;
 
-import ru.nsu.leorita.models.Connection;
-import ru.nsu.leorita.socks.SocksResponse;
-import ru.nsu.leorita.dns.DnsService;
-import ru.nsu.leorita.socks.SocksParser;
+import ru.nsu.leorita.model.Connection;
+import ru.nsu.leorita.protocol.Response;
+import ru.nsu.leorita.services.DnsService;
+import ru.nsu.leorita.protocol.Parser;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
@@ -25,7 +25,7 @@ public class SocksRequestHandler extends SocksHandler {
 //        outputBuffer.clear();
 
         read(selectionKey);
-        var request = SocksParser.parseRequest(outputBuffer);
+        var request = Parser.parseRequest(outputBuffer);
         if (request == null)
             return;
 
@@ -54,7 +54,7 @@ public class SocksRequestHandler extends SocksHandler {
     }
 
     public static void putErrorResponseIntoBuf(SelectionKey selectionKey, Connection connection,  byte error) {
-        var response = new SocksResponse();
+        var response = new Response();
         response.setReply(error);
 
         var inputBuff = connection.getInputBuffer();

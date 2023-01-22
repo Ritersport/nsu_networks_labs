@@ -1,6 +1,6 @@
-package ru.nsu.leorita.socks;
+package ru.nsu.leorita.protocol;
 
-public class SocksConnectRequest {
+public class ConnectRequest {
     private byte version;
 
     private byte nMethods;

@@ -14,6 +14,6 @@ public class ArgResolver {
     }
 
     public static String getUsage(){
-        return "java -jar socksProxy.jar <port>";
+        return "./gradlew run --args=\"<port>\"";
     }
 }

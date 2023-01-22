@@ -1,6 +1,6 @@
 package ru.nsu.leorita.handlers;
 
-import ru.nsu.leorita.models.Connection;
+import ru.nsu.leorita.model.Connection;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -62,7 +62,7 @@ public abstract class Handler {
             selectionKey.interestOps(SelectionKey.OP_READ);
             checkAssociate(socketChannel, inputBuffer);
         } else
-            connection.setWriteStartPosition();
+            connection.setStartWritingPosition();
 
         return remaining;
     }

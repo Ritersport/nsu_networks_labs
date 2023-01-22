@@ -1,9 +1,9 @@
-package ru.nsu.leorita.dns;
+package ru.nsu.leorita.services;
 
 import ru.nsu.leorita.handlers.ConnectHandler;
 import ru.nsu.leorita.handlers.Handler;
-import ru.nsu.leorita.models.FiniteTreeMap;
-import ru.nsu.leorita.socks.SocksRequest;
+import ru.nsu.leorita.utils.CacheTreeMap;
+import ru.nsu.leorita.protocol.Request;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -36,10 +36,10 @@ public class DnsService {
     private Handler dnsResponseHandler;
 
     // key - dns message id
-    private Map<Integer, DnsMapValue> unresolvedNames = new HashMap<>();
+    private Map<Integer, DnsMap> unresolvedNames = new HashMap<>();
 
     // key - hostname, value - ip
-    private FiniteTreeMap<String, String> dnsCache = new FiniteTreeMap<>(CACHE_SIZE);
+    private CacheTreeMap<String, String> dnsCache = new CacheTreeMap<>(CACHE_SIZE);
 
     private static class SingletonHelper{
         private static final DnsService dnsService = new DnsService();
@@ -62,7 +62,7 @@ public class DnsService {
         channel.register(selector, SelectionKey.OP_READ, dnsResponseHandler);
     }
 
-    public void resolveName(SocksRequest request, SelectionKey selectionKey) throws IOException {
+    public void resolveName(Request request, SelectionKey selectionKey) throws IOException {
         try {
             var name = request.getDomainName();
             var cachedAddress = dnsCache.get(name + ".");
@@ -72,7 +72,7 @@ public class DnsService {
             }
 
             System.out.println("New domain name to resolve: " + request.getDomainName());
-            var mapValue = new DnsMapValue(selectionKey, request.getTargetPort());
+            var mapValue = new DnsMap(selectionKey, request.getTargetPort());
             var query = getQuery(name);
             var queryBytes = query.toWire();
 

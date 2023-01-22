@@ -1,7 +1,7 @@
 package ru.nsu.leorita.handlers;
 
-import ru.nsu.leorita.models.Connection;
-import ru.nsu.leorita.socks.SocksResponse;
+import ru.nsu.leorita.model.Connection;
+import ru.nsu.leorita.protocol.Response;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -64,7 +64,7 @@ public class ConnectHandler extends Handler{
     private static void putResponseIntoBuf(Connection connection, SocketChannel socketChannel) throws IOException {
         var socketAddress = (InetSocketAddress) socketChannel.getLocalAddress();
 
-        var response = new SocksResponse();
+        var response = new Response();
         var address = InetAddress.getLocalHost().getAddress();
 
         response.setBoundIp4Address(address);

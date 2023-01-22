@@ -1,8 +1,8 @@
-package ru.nsu.leorita.socks;
+package ru.nsu.leorita.protocol;
 
 import java.nio.ByteBuffer;
 
-public class SocksResponse {
+public class Response {
     private static final int RESPONSE_LENGTH = 10;
 
     private byte version = 0x05;

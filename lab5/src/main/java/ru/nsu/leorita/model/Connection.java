@@ -1,18 +1,15 @@
-package ru.nsu.leorita.models;
+package ru.nsu.leorita.model;
+
+import ru.nsu.leorita.utils.ObservableByteBuffer;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class Connection {
-    // user write to
     private ObservableByteBuffer outputBuffer;
-
-    // user read from
     private ObservableByteBuffer inputBuffer;
-
     private SocketChannel associate;
-
     private int writeStartPosition = 0;
 
     public Connection(ObservableByteBuffer outputBuffer, ObservableByteBuffer inputBuffer) {
@@ -45,36 +42,36 @@ public class Connection {
         return inputBuffer;
     }
 
-    public void registerBufferListener(ObservableByteBuffer.BufferListener bufferListener){
+    public void registerBufferListener(ObservableByteBuffer.BufferListener bufferListener) {
         inputBuffer.registerBufferListener(bufferListener);
     }
 
-    public void notifyBufferListener(){
+    public void notifyBufferListener() {
         outputBuffer.notifyListener();
     }
 
     public void closeAssociate() throws IOException {
-        if(associate != null) {
+        if (associate != null) {
             System.out.println("Socket closed: " + associate.getRemoteAddress());
             associate.close();
         }
     }
 
-    public void shutdown(){
+    public void shutdown() {
         outputBuffer.shutdown();
     }
 
-    public boolean isAssociateShutDown(){
+    public boolean isAssociateShutDown() {
         return inputBuffer.isReadyToClose();
     }
 
-    public void prepareToWrite(){
+    public void prepareToWrite() {
         var inputBuffer = getInputBuffer();
         inputBuffer.flip();
         inputBuffer.position(writeStartPosition);
     }
 
-    public boolean isReadyToClose(){
+    public boolean isReadyToClose() {
         return outputBuffer.isReadyToClose() && inputBuffer.isReadyToClose();
     }
 
@@ -82,7 +79,7 @@ public class Connection {
         this.writeStartPosition = 0;
     }
 
-    public void setWriteStartPosition() {
+    public void setStartWritingPosition() {
         var inputBuffer = getInputBuffer();
         this.writeStartPosition = inputBuffer.position();
 

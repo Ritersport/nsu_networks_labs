@@ -2,7 +2,7 @@ package ru.nsu.leorita;
 
 import ru.nsu.leorita.handlers.AcceptHandler;
 import ru.nsu.leorita.handlers.Handler;
-import ru.nsu.leorita.dns.DnsService;
+import ru.nsu.leorita.services.DnsService;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -27,7 +27,7 @@ public class Proxy {
             dnsService.registerSelector(selector);
 
             initServerSocketChannel(serverSocketChannel, selector);
-            select(selector);
+            startSelection(selector);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class Proxy {
                 new AcceptHandler(serverSocketChannel));
     }
 
-    private void select(Selector selector) throws IOException {
+    private void startSelection(Selector selector) throws IOException {
         while (true) {
             selector.select();
             var readyKeys = selector.selectedKeys();
@@ -54,7 +54,7 @@ public class Proxy {
                         handleSelectionKey(readyKey);
                 } catch (IOException exception) {
                     closeConnection(readyKey);
-                } catch (CancelledKeyException exc){
+                } catch (CancelledKeyException ignored){
                 }
             }
         }
@@ -81,7 +81,6 @@ public class Proxy {
             handler.write(selectionKey);
         }
 
-        // not only writable
         if(selectionKey.isValid() && selectionKey.readyOps() != SelectionKey.OP_WRITE)
             handler.handle(selectionKey);
         }

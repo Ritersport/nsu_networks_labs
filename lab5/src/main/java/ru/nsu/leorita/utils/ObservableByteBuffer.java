@@ -1,4 +1,4 @@
-package ru.nsu.leorita.models;
+package ru.nsu.leorita.utils;
 
 import java.nio.ByteBuffer;
 

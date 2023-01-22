@@ -1,10 +1,10 @@
-package ru.nsu.leorita.socks;
+package ru.nsu.leorita.protocol;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
-public class    SocksRequest {
+public class Request {
     private byte version;
 
     private byte command;

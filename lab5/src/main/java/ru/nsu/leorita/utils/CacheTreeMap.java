@@ -1,13 +1,13 @@
-package ru.nsu.leorita.models;
+package ru.nsu.leorita.utils;
 
 import java.util.TreeMap;
 
-public class FiniteTreeMap<K extends Comparable<K>,V> {
+public class CacheTreeMap<K extends Comparable<K>,V> {
     private TreeMap<K,V> map  = new TreeMap<>();
 
     private int capacity;
 
-    public FiniteTreeMap(int capacity) {
+    public CacheTreeMap(int capacity) {
         this.capacity = capacity;
     }
 

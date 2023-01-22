@@ -1,6 +1,6 @@
-package ru.nsu.leorita.socks;
+package ru.nsu.leorita.protocol;
 
-public class SocksConnectResponse {
+public class ConnectResponse {
     private byte version = 0x05;
 
     private byte method = 0x00;
@@ -9,7 +9,7 @@ public class SocksConnectResponse {
         this.method = method;
     }
 
-    public byte[] toByteArr(){
+    public byte[] toBytes(){
         return new byte[]{version, method};
     }
 }
